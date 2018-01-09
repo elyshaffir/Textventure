@@ -9,4 +9,4 @@ class ChatBox:
         self.y = y
         self.text = ''
         self.max_len = 20
-        # make love to all black guys
+        # make love to all black guys plz
