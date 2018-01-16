@@ -40,4 +40,7 @@ class Room:
         if c in self.commands.keys():
             self.commands[c]()
         else:
-            pass  # Later message
+            c1 = c.split(' ')
+            for npc in self.npcs:
+                if c1[-1] == npc.name.upper() and c1[0] in npc.acts:
+                    npc.act(c1[0])

@@ -5,12 +5,15 @@ pygame.init()
 
 
 def test():
-    pass
+    pygame.quit()
+    quit()
 
 game_display = pygame.display.set_mode((800, 600))
 
+jacko = NPC.NPC(name = 'Jacko', dialogs = {}, acts = {'TEST': test})
+
 genesis = Room.Room()
-r1 = Room.Room(commands={'TEST': test}, left = genesis)
+r1 = Room.Room(npcs = [jacko], left = genesis)
 
 player = Player.Player(genesis)
 

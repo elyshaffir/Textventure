@@ -107,6 +107,10 @@ class ChatBox:
             if k[pygame.K_9]:
                 self.letter = '9'
 
+            # commands
+            if k[pygame.K_RETURN]:
+                self.letter = '--enter--'
+
         if (self.letter != self.prv_ltr):
             # previus letter
             self.prv_ltr = self.letter
@@ -115,6 +119,14 @@ class ChatBox:
             if self.letter == '-':
                 self.string = self.string[:-1]
                 self.letter = ''
+
+            # submitting
+            if self.letter == '--enter--':
+                Commands.commands(self.string.upper(), self.player)
+                self.player.room.command(self.string.upper())
+                self.string = ''
+                self.letter = ''
+
 
             # adding to string
             if (self.letter != ''):
@@ -133,11 +145,3 @@ class ChatBox:
         text_surface = font.render(self.string, False, (0, 0, 0))
         text_surface.get_rect().center = (100, 100)
         game_display.blit(text_surface, text_surface.get_rect())
-        self.exe()
-
-    def exe(self):
-        k = pygame.key.get_pressed()
-        if k[pygame.K_RETURN]:
-            Commands.commands(self.string.upper(), self.player)
-            self.player.room.command(self.string.upper())
-            self.string = ''
