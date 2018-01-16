@@ -72,6 +72,32 @@ class ChatBox:
                 self.letter = '-'
             if k[pygame.K_SPACE]:
                 self.letter = ' '
+            if k[pygame.K_SLASH]:
+                self.letter = '/'
+            if k[pygame.K_PERIOD]:
+                self.letter = '.'
+
+            # numbers
+            if k[pygame.K_0]:
+                self.letter = '0'
+            if k[pygame.K_1]:
+                self.letter = '1'
+            if k[pygame.K_2]:
+                self.letter = '2'
+            if k[pygame.K_3]:
+                self.letter = '3'
+            if k[pygame.K_4]:
+                self.letter = '4'
+            if k[pygame.K_5]:
+                self.letter = '5'
+            if k[pygame.K_6]:
+                self.letter = '6'
+            if k[pygame.K_7]:
+                self.letter = '7'
+            if k[pygame.K_8]:
+                self.letter = '8'
+            if k[pygame.K_9]:
+                self.letter = '9'
 
         if (self.letter != self.prv_ltr):
             # previus letter
@@ -85,7 +111,11 @@ class ChatBox:
 
             # adding to string
             if (self.letter != ''):
-                if k[pygame.K_LSHIFT]:
+                if k[pygame.K_LSHIFT] or k[pygame.K_RSHIFT]:
+                    # turn / to ?
+                    if self.letter == '/':
+                        self.letter = '?'
+
                     self.string += self.letter.upper()
                 else:
                     self.string += self.letter
