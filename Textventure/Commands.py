@@ -1,5 +1,7 @@
 def commands(cmd, player):
-    global_commands[cmd](player)
+    if cmd in global_commands.keys():
+        global_commands[cmd](player)
+        print player.room.id
 
 
 # movement

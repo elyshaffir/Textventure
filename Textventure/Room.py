@@ -7,8 +7,8 @@ class Room:
                 left = None, right = None, up = None, down = None,
                 id_n = random.randrange(1024),
                 info = '',
-                commands = [],
-                people = [],
+                commands = {},
+                npcs = [],
                 objects = []):
 
         self.id = id_n
@@ -32,6 +32,12 @@ class Room:
             self.down.up = self
 
         self.info = info
-        self.commands = commands
-        self.people = people
-        self.objects = objects 
+        self.commands = commands  # Dictionary
+        self.npcs = npcs
+        self.objects = objects
+
+    def command(self, c):
+        if c in self.commands.keys():
+            self.commands[c]()
+        else:
+            pass  # Later message

@@ -1,21 +1,28 @@
 import pygame
-import Room
+import Room, ChatBox, NPC, Player
 
 pygame.init()
 
-import ui_util
+
+def test():
+    pass
 
 game_display = pygame.display.set_mode((800, 600))
-genesis = Room.Room()
-r1 = Room.Room(left = genesis)
-r2 = Room.Room(left = r1)
 
+genesis = Room.Room()
+r1 = Room.Room(commands={'TEST': test}, left = genesis)
+
+player = Player.Player(genesis)
+
+cb = ChatBox.ChatBox(player = player)
+font = pygame.font.SysFont('Comic Sans MS', 30)
 
 while 1:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
-            ui_util.prompt(game_display, str(genesis.id)  + ': ' + str(r2.left.left.id) + ': ' + str(genesis.right.right.id))
             pygame.quit()
             quit()
+
     game_display.fill((255, 255, 255))
+    cb.printer(game_display, font)
     pygame.display.update()

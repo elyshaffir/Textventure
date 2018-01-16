@@ -1,8 +1,12 @@
 import pygame
+import Commands
 
 class ChatBox:
 
-    def __init__(self):
+    def __init__(self, player):
+
+        self.player = player
+
         self.string = ''
         self.letter = ''
         self.prv_ltr = ''
@@ -129,3 +133,11 @@ class ChatBox:
         text_surface = font.render(self.string, False, (0, 0, 0))
         text_surface.get_rect().center = (100, 100)
         game_display.blit(text_surface, text_surface.get_rect())
+        self.exe()
+
+    def exe(self):
+        k = pygame.key.get_pressed()
+        if k[pygame.K_RETURN]:
+            Commands.commands(self.string.upper(), self.player)
+            self.player.room.command(self.string.upper())
+            self.string = ''
