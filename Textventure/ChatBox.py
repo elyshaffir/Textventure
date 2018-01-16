@@ -7,6 +7,10 @@ class ChatBox:
         self.letter = ''
         self.prv_ltr = ''
 
+    def letter_exc(self, a, b):
+        if self.letter == a:
+            self.letter = b
+
     def inputer(self):
         self.letter = ''
         k = pygame.key.get_pressed()
@@ -107,17 +111,21 @@ class ChatBox:
             if self.letter == '-':
                 self.string = self.string[:-1]
                 self.letter = ''
-                print(self.string)
 
             # adding to string
             if (self.letter != ''):
                 if k[pygame.K_LSHIFT] or k[pygame.K_RSHIFT]:
                     # turn / to ?
-                    if self.letter == '/':
-                        self.letter = '?'
+                    self.letter_exc('/', '?')
+                    # turn 1 to !
+                    self.letter_exc('1', '!')
 
                     self.string += self.letter.upper()
                 else:
                     self.string += self.letter
 
-                print(self.string)
+    def printer(self, game_display, font):
+        self.inputer()
+        text_surface = font.render(self.string, False, (0, 0, 0))
+        text_surface.get_rect().center = (100, 100)
+        game_display.blit(text_surface, text_surface.get_rect())
