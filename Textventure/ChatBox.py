@@ -127,6 +127,7 @@ class ChatBox:
             if self.letter == '--enter--':
                 Commands.commands(self.string.upper(), self.player)
                 self.player.room.command(self.string.upper())
+                self.player.command(self.string.upper())
                 self.string = ''
                 self.letter = ''
 
@@ -143,7 +144,7 @@ class ChatBox:
                 else:
                     self.string += self.letter
         else:
-            if (self.ltr_cnt == 250):
+            if (self.ltr_cnt == 200):
                 self.ltr_cnt = 0
                 # erasing
                 if self.letter == '--backspace--':

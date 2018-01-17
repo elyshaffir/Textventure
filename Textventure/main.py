@@ -1,21 +1,22 @@
 import pygame
-import Room, ChatBox, NPC, Player
+import Room, ChatBox, NPC, Player, Object
 
 pygame.init()
 
 
-def test():
-    pygame.quit()
-    quit()
+def test(target):
+    print target
 
 game_display = pygame.display.set_mode((800, 600))
+
+bb = Object.Object('Bat', usages={'KILL': test})
 
 jacko = NPC.NPC(name = 'Jacko', dialogs = {}, acts = {'TEST': test})
 
 genesis = Room.Room()
 r1 = Room.Room(npcs = [jacko], left = genesis)
 
-player = Player.Player(genesis)
+player = Player.Player(genesis, inv=[bb])
 
 cb = ChatBox.ChatBox(player = player)
 font = pygame.font.SysFont('Comic Sans MS', 30)

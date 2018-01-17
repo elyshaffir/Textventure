@@ -41,7 +41,6 @@ class Room:
             self.commands[c]()
         else:
             c1 = c.split(' ')
-            cmd = c.split(' ' + c1[-1])[0]
             for npc in self.npcs:
-                if c1[-1] == npc.name.upper() and cmd in npc.acts:
-                    npc.act(cmd)
+                if c1[-1] == npc.name.upper() and c1[:-1] in npc.acts:
+                    npc.act(c1[:-1])
