@@ -10,6 +10,7 @@ class ChatBox:
         self.string = ''
         self.letter = ''
         self.prv_ltr = ''
+        self.ltr_cnt = 0
 
     def letter_exc(self, a, b):
         if self.letter == a:
@@ -77,7 +78,7 @@ class ChatBox:
 
             # other stuff
             if k[pygame.K_BACKSPACE]:
-                self.letter = '-'
+                self.letter = '--backspace--'
             if k[pygame.K_SPACE]:
                 self.letter = ' '
             if k[pygame.K_SLASH]:
@@ -111,12 +112,14 @@ class ChatBox:
             if k[pygame.K_RETURN]:
                 self.letter = '--enter--'
 
-        if (self.letter != self.prv_ltr):
+        # wait for key release
+        if self.letter != self.prv_ltr:
+
             # previus letter
             self.prv_ltr = self.letter
 
             # erasing
-            if self.letter == '-':
+            if self.letter == '--backspace--':
                 self.string = self.string[:-1]
                 self.letter = ''
 
@@ -139,9 +142,18 @@ class ChatBox:
                     self.string += self.letter.upper()
                 else:
                     self.string += self.letter
+        else:
+            if (self.ltr_cnt == 250):
+                self.ltr_cnt = 0
+                # erasing
+                if self.letter == '--backspace--':
+                    self.string = self.string[:-1]
+                    self.letter = ''
+            else:
+                self.ltr_cnt += 1
 
     def printer(self, game_display, font):
         self.inputer()
-        text_surface = font.render(self.string, False, (0, 0, 0))
+        text_surface = font.render(self.string + '|', False, (0, 0, 0))
         text_surface.get_rect().center = (100, 100)
         game_display.blit(text_surface, text_surface.get_rect())
