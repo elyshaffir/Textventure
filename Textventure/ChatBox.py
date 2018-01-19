@@ -112,16 +112,20 @@ class ChatBox:
             if k[pygame.K_RETURN]:
                 self.letter = '--enter--'
 
+        # erasing
+        if self.letter == '--backspace--':
+            if self.ltr_cnt == 0 or (self.ltr_cnt > 600 and self.ltr_cnt % 50 == 0):
+                self.string = self.string[:-1]
+            self.ltr_cnt += 1
+            self.letter = ''
+        else:
+            self.ltr_cnt = 0
+
         # wait for key release
         if self.letter != self.prv_ltr:
 
             # previus letter
             self.prv_ltr = self.letter
-
-            # erasing
-            if self.letter == '--backspace--':
-                self.string = self.string[:-1]
-                self.letter = ''
 
             # submitting
             if self.letter == '--enter--':
@@ -143,15 +147,6 @@ class ChatBox:
                     self.string += self.letter.upper()
                 else:
                     self.string += self.letter
-        else:
-            if (self.ltr_cnt == 200):
-                self.ltr_cnt = 0
-                # erasing
-                if self.letter == '--backspace--':
-                    self.string = self.string[:-1]
-                    self.letter = ''
-            else:
-                self.ltr_cnt += 1
 
     def printer(self, game_display, font):
         self.inputer()
