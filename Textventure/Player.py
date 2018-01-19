@@ -14,3 +14,11 @@ class Player:
             for i in self.inv:
                 if obj == i.name.upper() and use in i.usages.keys():
                     i.use(use, target)
+                    break
+        elif c[0] == 'TELL':
+            npc_n = c[1]
+            d = ' '.join(c[2:])
+            for npc in self.room.npcs:
+                if npc_n == npc.name.upper() and d.upper() in npc.dialogs.keys():
+                    npc.dialog(d)
+                    break
