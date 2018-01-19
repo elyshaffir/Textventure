@@ -9,3 +9,7 @@ def prompt(game_display, text, x = 10, y = 10, color = (0, 0, 0), font = pygame.
         game_display.blit(text_surface, text_surface.get_rect())
         time.sleep(delay)
         pygame.display.update()
+
+
+def frame(game_display, x, y, w, h, color = (0, 0, 0), s = 3):
+    pygame.draw.rect(game_display, color, [x, y, w, h], s)
