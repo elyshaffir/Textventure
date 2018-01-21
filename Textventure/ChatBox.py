@@ -10,13 +10,61 @@ class ChatBox:
         self.string = ''
         self.letter = ''
         self.prv_ltr = ''
-        self.ltr_cnt = 0
+        self.write_place = 0
+
+        # certain key hold timers
+        self.ers_timer = 0
+        self.wl_timer = 0
+        self.wr_timer = 0
+
+        self.type_timer = 0
+        self.type_ltr = '|'
+
+    def erase(self):
+        place = -self.write_place
+        if place == 0:
+            self.string = self.string[:-1]
+        else:
+            self.string = self.string[:place - 1] + self.string[place:]
+
+    def w_left(self):
+        if self.write_place < len(self.string):
+            self.write_place += 1
+
+    def w_right(self):
+        if self.write_place > 0:
+            self.write_place -= 1
+
+    def hold_function(self, letter, func, timer):
+        # function
+        if self.letter == letter:
+            # first press
+            if timer == 0:
+                func()
+            # after holding
+            if timer > 385 and timer % 35 == 0:
+                func()
+
+            # hold timer
+            timer += 1
+            self.letter = ''
+        else:
+            # reset hold timer
+            timer = 0
+        return timer
+
+    def write(self, place, letter):
+        if place == 0:
+            self.string += letter
+        else:
+            self.string = self.string[:place] + letter + self.string[place:]
 
     def letter_exc(self, a, b):
         if self.letter == a:
             self.letter = b
 
     def inputer(self):
+        # letter reset
         self.letter = ''
         k = pygame.key.get_pressed()
 
@@ -85,6 +133,10 @@ class ChatBox:
                 self.letter = '/'
             if k[pygame.K_PERIOD]:
                 self.letter = '.'
+            if k[pygame.K_RIGHT]:
+                self.letter = '--right--'
+            if k[pygame.K_LEFT]:
+                self.letter = '--left--'
 
             # numbers
             if k[pygame.K_0]:
@@ -113,18 +165,18 @@ class ChatBox:
                 self.letter = '--enter--'
 
         # erasing
-        if self.letter == '--backspace--':
-            if self.ltr_cnt == 0 or (self.ltr_cnt > 600 and self.ltr_cnt % 50 == 0):
-                self.string = self.string[:-1]
-            self.ltr_cnt += 1
-            self.letter = ''
-        else:
-            self.ltr_cnt = 0
+        self.ers_timer = self.hold_function('--backspace--', self.erase, self.ers_timer)
 
-        # wait for key release
+        # moving the write place left
+        self.wl_timer = self.hold_function('--left--', self.w_left, self.wl_timer)
+
+        # moving the write place right
+        self.wr_timer = self.hold_function('--right--', self.w_right, self.wr_timer)
+
+        # single press key functions
         if self.letter != self.prv_ltr:
 
-            # previus letter
+            # previus letter: checks fir single press
             self.prv_ltr = self.letter
 
             # submitting
@@ -144,12 +196,23 @@ class ChatBox:
                     # turn 1 to !
                     self.letter_exc('1', '!')
 
-                    self.string += self.letter.upper()
-                else:
-                    self.string += self.letter
+                    # upper case letters
+                    self.letter = self.letter.upper()
+
+                self.write(-self.write_place, self.letter)
 
     def printer(self, game_display, font):
         self.inputer()
-        text_surface = font.render(self.string + '|', False, (0, 0, 0))
+        if self.type_timer == 500:
+            self.type_ltr = ' '
+
+        if self.type_timer == 1000:
+            self.type_ltr = '|'
+            self.type_timer = 0
+
+        self.type_timer += 1
+        place = len(self.string) - self.write_place
+        stringer = self.string[:place] + self.type_ltr + self.string[place:]
+        text_surface = font.render(stringer, False, (0, 0, 0))
         text_surface.get_rect().center = (100, 100)
         game_display.blit(text_surface, text_surface.get_rect())
