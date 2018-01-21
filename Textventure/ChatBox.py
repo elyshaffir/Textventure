@@ -1,5 +1,7 @@
 import pygame
 import Commands
+from globals import *
+
 
 class ChatBox:
 
@@ -213,6 +215,5 @@ class ChatBox:
         self.type_timer += 1
         place = len(self.string) - self.write_place
         stringer = self.string[:place] + self.type_ltr + self.string[place:]
-        text_surface = font.render(stringer, False, (0, 0, 0))
-        text_surface.get_rect().center = (100, 100)
-        game_display.blit(text_surface, text_surface.get_rect())
+        text_surface = font.render(stringer, False, FOREGROUND)
+        game_display.blit(text_surface, (10, 450))

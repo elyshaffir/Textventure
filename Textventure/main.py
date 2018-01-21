@@ -1,22 +1,20 @@
 import pygame
-import Room, ChatBox, NPC, Player, Object
 
 pygame.init()
 
+import Room, ChatBox, NPC, Player, Object
+from globals import *
 
-def test(target):
-    print target
+import ui_util
 
-game_display = pygame.display.set_mode((800, 600))
 
-bb = Object.Object('Bat', usages={'KILL': test})
+game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
-jacko = NPC.NPC(name = 'Jacko', dialogs = {}, acts = {'TEST': test})
+joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
 
-genesis = Room.Room()
-r1 = Room.Room(npcs = [jacko], left = genesis)
+genesis = Room.Room(npcs=[joe])
 
-player = Player.Player(genesis, inv=[bb])
+player = Player.Player(genesis)
 
 cb = ChatBox.ChatBox(player = player)
 font = pygame.font.SysFont('Comic Sans MS', 30)
@@ -27,6 +25,8 @@ while 1:
             pygame.quit()
             quit()
 
-    game_display.fill((255, 255, 255))
+    game_display.fill(BACKGROUND)
+    ui_util.frame(game_display, 10, 450, 780, 140, color = FOREGROUND)
+    ui_util.frame(game_display, 10, 10, 780, 430, color = FOREGROUND)
     cb.printer(game_display, font)
     pygame.display.update()

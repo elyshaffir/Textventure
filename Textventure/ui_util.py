@@ -2,12 +2,11 @@ import pygame, time
 from globals import *
 
 
-def prompt(game_display, text, x = 10, y = 10, color = FOREGROUND, font = pygame.font.SysFont('Comic Sans MS', 30), delay = .3):
+def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame.font.SysFont('Comic Sans MS', 30), delay = .3):
 
     for i in range(len(text)):
         text_surface = font.render(text[:i + 1], False, color)
-        text_surface.get_rect().center = (x, y)
-        game_display.blit(text_surface, text_surface.get_rect())
+        game_display.blit(text_surface, (x, y))
         time.sleep(delay)
         pygame.display.update()
 
