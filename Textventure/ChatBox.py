@@ -29,7 +29,7 @@ class ChatBox:
             for word in text[:count]:
                 string += word
             text_surface = font.render(string, False, color[count - 1])
-            game_display.blit(text_surface, (15, 450))
+            game_display.blit(text_surface, (15, 530))
 
 
     def erase(self):
@@ -230,24 +230,16 @@ class ChatBox:
         color = []
         for word in split_string:
             if word.upper() in Commands.global_commands.keys():
-                color.append(FOREGROUND)
+                color.append(COMMAND)
+            elif word.upper() in Commands.keywords:
+                color.append(KEYWORD)
+            elif word.upper() in self.player.room.objects_n:  # FIXME: Doesn't work with more than one word
+                color.append(OBJ)
+            elif word.upper() in self.player.room.npcs_n:
+                color.append(NPC_C)
             else:
-                color.append((0, 0, 0))
+                color.append(OTHER)
 
             text.append(word + ' ')
 
         self.write_with_color(text, color, game_display, font)
-        """
-
-        place = len(self.string) - self.write_place
-        stringer = self.string
-        text_surface = font.render(stringer, False, FOREGROUND)
-        game_display.blit(text_surface, (15, 450))
-        stringer = self.string[:place] + self.type_ltr
-        text_surface = font.render(stringer, False, FOREGROUND)
-        game_display.blit(text_surface, (15, 450))
-        self.write_with_color(['a','bach ','c'],
-                            [(110, 2, 32), (0,250,0), (4, 124, 6)],
-                            game_display, font)
-
-        """

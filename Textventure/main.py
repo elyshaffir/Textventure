@@ -12,7 +12,7 @@ import ui_util
 game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
 joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
-chicken_leg = Object.Object('Chicken Leg', info = 'Its a fucking chicken leg.')
+chicken_leg = Object.Object('Chicken', info = 'Its a fucking chicken leg.')
 
 genesis = Room.Room(npcs=[joe], objects=[chicken_leg])
 

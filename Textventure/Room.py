@@ -35,6 +35,13 @@ class Room:
         self.commands = commands  # Dictionary
         self.npcs = npcs
         self.objects = objects
+        self.objects_n = []
+        for obj in objects:
+            self.objects_n.append(obj.name.upper())
+
+        self.npcs_n = []
+        for npc in npcs:
+            self.npcs_n.append(npc.name.upper())
 
     def command(self, c):
         if c in self.commands.keys():

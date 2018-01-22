@@ -1,6 +1,5 @@
 import ui_util
 
-
 class NPC:
 
     def __init__(self, game_display, name, dialogs = {}, acts = {}):

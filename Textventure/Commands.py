@@ -21,3 +21,4 @@ def up_c(player):
     player.room = player.room.up
 
 global_commands = {"LEFT": left_c, "RIGHT": right_c, "DOWN": down_c, "UP": up_c}
+keywords = ['USE', 'TELL', 'PICK']
