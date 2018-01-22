@@ -1,9 +1,13 @@
+import ui_util
+
+
 class Player:
 
-    def __init__(self, room, inv = []):
+    def __init__(self, game_display, room, inv = []):
 
         self.room = room
         self.inv = inv
+        self.game_display = game_display
 
     def command(self, c):
         c = c.split(' ')
@@ -22,3 +26,20 @@ class Player:
                 if npc_n == npc.name.upper() and d.upper() in npc.dialogs.keys():
                     npc.dialog(d)
                     break
+
+        elif c[0] == 'PICK':
+            obj_n = ' '.join(c[1:])
+
+            for obj in self.room.objects:
+                if obj_n == obj.name.upper():
+                    self.inv.append(obj)
+                    self.room.objects.remove(obj)
+                    obj.pick_event(self.game_display)
+                    return
+
+            for obj in self.inv:
+                if obj_n == obj.name.upper():
+                    ui_util.prompt_info('You already own that.')
+                    return
+
+            ui_util.prompt_info('No such object.')

@@ -3,7 +3,7 @@ import globals_vars
 from globals import *
 
 
-def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame.font.SysFont('Comic Sans MS', 30), delay = .3):
+def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame.font.SysFont('Comic Sans MS', 30), delay = .08):
 
     for i in range(len(text)):
         text_surface = font.render(text[:i + 1], False, color)
@@ -16,3 +16,11 @@ def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame
 
 def frame(game_display, x, y, w, h, color = FOREGROUND, s = 3):
     pygame.draw.rect(game_display, color, [x, y, w, h], s)
+
+
+def display_image(image):
+    pass
+
+
+def prompt_info(info):
+    globals_vars.current_displaying_info = info

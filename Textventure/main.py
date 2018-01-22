@@ -12,10 +12,11 @@ import ui_util
 game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
 joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
+chicken_leg = Object.Object('Chicken Leg', info = 'Its a fucking chicken leg.')
 
-genesis = Room.Room(npcs=[joe])
+genesis = Room.Room(npcs=[joe], objects=[chicken_leg])
 
-player = Player.Player(genesis)
+player = Player.Player(game_display, genesis)
 
 cb = ChatBox.ChatBox(player = player)
 font = pygame.font.SysFont('Comic Sans MS', 30)
@@ -29,12 +30,17 @@ while 1:
 
     game_display.fill(BACKGROUND)
 
-    ui_util.frame(game_display, 10, 450, 780, 140, color = FOREGROUND)
-    ui_util.frame(game_display, 10, 10, 780, 430, color = FOREGROUND)
+    ui_util.frame(game_display, 10, 10, 780, 60, color=FOREGROUND)
+    ui_util.frame(game_display, 10, 80, 780, 60, color=FOREGROUND)
+    ui_util.frame(game_display, 10, 150, 780, 370, color=FOREGROUND)
+    ui_util.frame(game_display, 10, 530, 780, 60, color = FOREGROUND)
 
     cb.printer(game_display, font)
 
     text_surface = font.render(globals_vars.current_displaying_text, False, FOREGROUND)
-
     game_display.blit(text_surface, (15, 15))
+
+    text_surface = font.render(globals_vars.current_displaying_info, False, FOREGROUND)
+    game_display.blit(text_surface, (15, 85))
+
     pygame.display.update()
