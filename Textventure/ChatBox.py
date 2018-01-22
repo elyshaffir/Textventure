@@ -20,7 +20,17 @@ class ChatBox:
         self.wr_timer = 0
 
         self.type_timer = 0
-        self.type_ltr = '|'
+        self.type_ltr = '_'
+
+    def write_with_color(self, text, color, game_display, font):
+        for count in range(len(text), 0, -1):
+            string = ''
+            # builds sentece from end to color over it
+            for word in text[:count]:
+                string += word
+            text_surface = font.render(string, False, color[count - 1])
+            game_display.blit(text_surface, (15, 450))
+
 
     def erase(self):
         place = -self.write_place
@@ -210,14 +220,34 @@ class ChatBox:
             self.type_ltr = ' '
 
         if self.type_timer == 1000:
-            self.type_ltr = '|'
+            self.type_ltr = '_'
             self.type_timer = 0
 
         self.type_timer += 1
+
+        split_string = self.string.split(' ')
+        text = []
+        color = []
+        for word in split_string:
+            if word.upper() in Commands.global_commands.keys():
+                color.append(FOREGROUND)
+            else:
+                color.append((0, 0, 0))
+
+            text.append(word + ' ')
+
+        self.write_with_color(text, color, game_display, font)
+        """
+
         place = len(self.string) - self.write_place
-        stringer = self.string[:place] + ' ' + self.string[place:]
+        stringer = self.string
         text_surface = font.render(stringer, False, FOREGROUND)
         game_display.blit(text_surface, (15, 450))
         stringer = self.string[:place] + self.type_ltr
         text_surface = font.render(stringer, False, FOREGROUND)
         game_display.blit(text_surface, (15, 450))
+        self.write_with_color(['a','bach ','c'],
+                            [(110, 2, 32), (0,250,0), (4, 124, 6)],
+                            game_display, font)
+
+        """
