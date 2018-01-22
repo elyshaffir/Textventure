@@ -1,4 +1,5 @@
 import pygame, time
+import globals_vars
 from globals import *
 
 
@@ -9,6 +10,8 @@ def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame
         game_display.blit(text_surface, (x, y))
         time.sleep(delay)
         pygame.display.update()
+
+    globals_vars.current_displaying_text = text
 
 
 def frame(game_display, x, y, w, h, color = FOREGROUND, s = 3):
