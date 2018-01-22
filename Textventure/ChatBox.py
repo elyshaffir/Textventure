@@ -37,14 +37,14 @@ class ChatBox:
         if self.write_place > 0:
             self.write_place -= 1
 
-    def hold_function(self, letter, func, timer):
+    def hold_function(self, letter, func, timer, delay = 385, speed = 35):
         # function
         if self.letter == letter:
             # first press
             if timer == 0:
                 func()
             # after holding
-            if timer > 385 and timer % 35 == 0:
+            if timer > delay and timer % speed == 0:
                 func()
 
             # hold timer
@@ -186,6 +186,7 @@ class ChatBox:
                 Commands.commands(self.string.upper(), self.player)
                 self.player.room.command(self.string.upper())
                 self.player.command(self.string.upper())
+                self.write_place = 0
                 self.string = ''
                 self.letter = ''
 
@@ -214,6 +215,9 @@ class ChatBox:
 
         self.type_timer += 1
         place = len(self.string) - self.write_place
-        stringer = self.string[:place] + self.type_ltr + self.string[place:]
+        stringer = self.string[:place] + ' ' + self.string[place:]
         text_surface = font.render(stringer, False, FOREGROUND)
-        game_display.blit(text_surface, (10, 450))
+        game_display.blit(text_surface, (15, 450))
+        stringer = self.string[:place] + self.type_ltr
+        text_surface = font.render(stringer, False, FOREGROUND)
+        game_display.blit(text_surface, (15, 450))
