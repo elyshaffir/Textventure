@@ -31,7 +31,6 @@ class ChatBox:
             text_surface = font.render(string, False, color[count - 1])
             game_display.blit(text_surface, (15, 530))
 
-
     def erase(self):
         place = -self.write_place
         if place == 0:
@@ -42,10 +41,12 @@ class ChatBox:
     def w_left(self):
         if self.write_place < len(self.string):
             self.write_place += 1
+            self.type_timer = 1000
 
     def w_right(self):
         if self.write_place > 0:
             self.write_place -= 1
+            self.type_timer = 1000
 
     def hold_function(self, letter, func, timer, delay = 385, speed = 35):
         # function
@@ -215,6 +216,8 @@ class ChatBox:
                 self.write(-self.write_place, self.letter)
 
     def printer(self, game_display, font):
+        place = len(self.string) - self.write_place
+
         self.inputer()
         if self.type_timer == 500:
             self.type_ltr = ' '
@@ -224,6 +227,10 @@ class ChatBox:
             self.type_timer = 0
 
         self.type_timer += 1
+
+        stringer = self.string[:place] + self.type_ltr
+        text_surface = font.render(stringer, False, FOREGROUND)
+        game_display.blit(text_surface, (15, 530))
 
         split_string = self.string.split(' ')
         text = []
