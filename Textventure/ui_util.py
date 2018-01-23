@@ -11,6 +11,8 @@ def prompt(game_display, text, x = 15, y = 15, color = FOREGROUND, font = pygame
         time.sleep(delay)
         pygame.display.update()
 
+    globals_vars.current_displaying_info = ''
+    globals_vars.current_displaying_image = None
     globals_vars.current_displaying_text = text
 
 
@@ -19,8 +21,10 @@ def frame(game_display, x, y, w, h, color = FOREGROUND, s = 3):
 
 
 def display_image(image):
+    globals_vars.current_displaying_text = ''
     globals_vars.current_displaying_image = image
 
 
 def prompt_info(info):
+    globals_vars.current_displaying_text = ''
     globals_vars.current_displaying_info = info
