@@ -48,7 +48,7 @@ class ChatBox:
             self.write_place -= 1
             self.type_timer = 1000
 
-    def hold_function(self, letter, func, timer, delay = 385, speed = 35):
+    def hold_function(self, letter, func, timer, delay = 325, speed = 30):
         # function
         if self.letter == letter:
             # first press
