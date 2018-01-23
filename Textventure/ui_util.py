@@ -19,7 +19,7 @@ def frame(game_display, x, y, w, h, color = FOREGROUND, s = 3):
 
 
 def display_image(image):
-    pass
+    globals_vars.current_displaying_image = image
 
 
 def prompt_info(info):

@@ -34,7 +34,7 @@ class Player:
                 if obj_n == obj.name.upper():
                     self.inv.append(obj)
                     self.room.objects.remove(obj)
-                    obj.pick_event(self.game_display)
+                    obj.pick_event()
                     return
 
             for obj in self.inv:

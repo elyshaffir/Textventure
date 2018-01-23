@@ -12,7 +12,10 @@ import ui_util
 game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
 joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
-chicken_leg = Object.Object('Chicken', info = 'Its a fucking chicken leg.')
+chicken_leg = Object.Object('Chicken',
+                            info = 'Its a fucking chicken leg.',
+                            image = pygame.image.load('imgs/pulke.png'),
+                            w = 780, h = 370)
 
 genesis = Room.Room(npcs=[joe], objects=[chicken_leg])
 
@@ -42,5 +45,8 @@ while 1:
 
     text_surface = font.render(globals_vars.current_displaying_info, False, FOREGROUND)
     game_display.blit(text_surface, (15, 85))
+
+    if globals_vars.current_displaying_image is not None:
+        game_display.blit(globals_vars.current_displaying_image, (15, 155))
 
     pygame.display.update()
