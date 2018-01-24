@@ -1,5 +1,5 @@
 import random
-
+import ui_util
 
 class Room:
 
@@ -49,5 +49,8 @@ class Room:
         else:
             c1 = c.split(' ')
             for npc in self.npcs:
-                if c1[-1] == npc.name.upper() and c1[:-1] in npc.acts:
-                    npc.act(c1[:-1])
+                try:
+                    if c1[-1] == npc.name.upper() and c1[:-1] in npc.acts:
+                        npc.act(c1[:-1])
+                except TypeError:
+                    ui_util.prompt_info('Invalid command.')

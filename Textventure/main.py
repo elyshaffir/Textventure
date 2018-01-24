@@ -12,7 +12,7 @@ import ui_util
 game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
 
 joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
-chicken_leg = Object.Object('Chicken',
+chicken_leg = Object.Object('Chicken Leg',
                             info = 'Its a fucking chicken leg.',
                             image = pygame.image.load('imgs/pulke.png'),
                             w = 780, h = 370)
@@ -33,9 +33,9 @@ while 1:
 
     game_display.fill(BACKGROUND)
 
-    ui_util.frame(game_display, 10, 10, 780, 60, color=FOREGROUND)
-    ui_util.frame(game_display, 10, 80, 780, 60, color=FOREGROUND)
-    ui_util.frame(game_display, 10, 150, 780, 370, color=FOREGROUND)
+    ui_util.frame(game_display, 10, 10, 780, 60, color = FOREGROUND)
+    ui_util.frame(game_display, 10, 80, 780, 60, color = FOREGROUND)
+    ui_util.frame(game_display, 10, 150, 780, 370, color = FOREGROUND)
     ui_util.frame(game_display, 10, 530, 780, 60, color = FOREGROUND)
 
     cb.printer(game_display, font)
