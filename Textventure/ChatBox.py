@@ -234,19 +234,48 @@ class ChatBox:
 
         split_string = self.string.split(' ')
         text = []
+        og_text = []
         color = []
-        for word in split_string:
-            if word.upper() in Commands.global_commands.keys():
+        i = 0
+        while i < len(split_string):
+            # original word backup
+            og_text.append(split_string[i])
+
+            # remove unwanted space
+            while i + 1 < len(split_string) and split_string[i + 1] == '':
+                split_string[i] += ' '
+                del split_string[i + 1]
+
+            if og_text[i].upper() in Commands.global_commands.keys():
                 color.append(COMMAND)
-            elif word.upper() in Commands.keywords:
+            elif og_text[i].upper() in Commands.keywords:
                 color.append(KEYWORD)
-            elif word.upper() in self.player.room.objects_n:  # FIXME: Doesn't work with more than one word
+            elif og_text[i].upper() in self.player.room.objects_n:
                 color.append(OBJ)
-            elif word.upper() in self.player.room.npcs_n:
+            elif og_text[i].upper() in self.player.room.npcs_n:
                 color.append(NPC_C)
             else:
                 color.append(OTHER)
 
-            text.append(word + ' ')
-
+            if i > 0 and color[i] == (OTHER) and color[i - 1] == (OTHER):
+                og_text[i - 1] += ' ' + og_text[i]
+                split_string[i - 1] += ' ' + split_string[i]
+                del split_string[i]
+                del og_text[i]
+                del color[i]
+                i -= 1
+                if og_text[i].upper() in Commands.global_commands.keys():
+                    color[i] = COMMAND
+                elif og_text[i].upper() in Commands.keywords:
+                    color[i] = KEYWORD
+                elif og_text[i].upper() in self.player.room.objects_n:
+                    color[i] = OBJ
+                elif og_text[i].upper() in self.player.room.npcs_n:
+                    color[i] = NPC_C
+                else:
+                    color[i] = OTHER
+                text[i] = split_string[i]
+            else:
+                text.append(split_string[i])
+            i += 1
         self.write_with_color(text, color, game_display, font)
