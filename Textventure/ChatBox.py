@@ -274,8 +274,10 @@ class ChatBox:
                     color[i] = NPC_C
                 else:
                     color[i] = OTHER
-                text[i] = split_string[i]
+
+                text[i] = split_string[i] + ' '
+
             else:
-                text.append(split_string[i])
+                text.append(split_string[i] + ' ')
             i += 1
         self.write_with_color(text, color, game_display, font)
