@@ -12,6 +12,7 @@ class ChatBox:
         self.string = ''
         self.letter = ''
         self.prv_ltr = ''
+        self.og_text = []
         self.write_place = 0
 
         # certain key hold timers
@@ -200,7 +201,7 @@ class ChatBox:
                 self.write_place = 0
                 self.string = ''
                 self.letter = ''
-
+                print self.og_text
 
             # adding to string
             if (self.letter != ''):
@@ -254,6 +255,8 @@ class ChatBox:
                 color.append(OBJ)
             elif og_text[i].upper() in self.player.room.npcs_n:
                 color.append(NPC_C)
+            elif og_text[i].upper() in COLOURS.keys():
+                color.append(COLOURS[og_text[i].upper()])
             else:
                 color.append(OTHER)
 
@@ -280,4 +283,5 @@ class ChatBox:
             else:
                 text.append(split_string[i] + ' ')
             i += 1
+        self.og_text = og_text
         self.write_with_color(text, color, game_display, font)
