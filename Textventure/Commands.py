@@ -50,4 +50,4 @@ def up_c(player):
 
 
 global_commands = {"LEFT": left_c, "RIGHT": right_c, "DOWN": down_c, "UP": up_c}
-keywords = ['USE', 'TELL', 'PICK', 'DROP']
+keywords = ['USE', 'TELL', 'PICK', 'DROP', 'SAVE', 'LOAD']
