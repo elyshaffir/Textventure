@@ -2,12 +2,14 @@ import ui_util
 import globals_vars
 
 def commands(cmd, player):
-    if cmd in global_commands.keys():
-        try:
-            global_commands[cmd](player)
-            print player.room.id
-        except AttributeError:
-            ui_util.prompt_info('Can\'t do that.')
+    # for every command in string
+    for c in cmd:
+        if c.upper() in global_commands.keys():
+            try:
+                global_commands[c.upper()](player)
+                print player.room.id
+            except AttributeError:
+                ui_util.prompt_info('Can\'t do that.')
 
 
 # movement

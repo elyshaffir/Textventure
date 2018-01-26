@@ -10,8 +10,10 @@ import ui_util
 
 
 game_display = pygame.display.set_mode((DISPLAY_WIDTH, DISPLAY_HEIGHT))
+def c_h():
+    cb.string = 'Hell Yeah'
 
-joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'})
+joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'}, {"TEST":c_h})
 chicken_leg = Object.Object('Chicken Leg',
                             info = 'Its a fucking chicken leg.',
                             image = pygame.image.load('imgs/pulke.png'),

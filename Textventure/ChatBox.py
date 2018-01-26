@@ -195,12 +195,12 @@ class ChatBox:
 
             # submitting
             if self.letter == '--enter--':
-                Commands.commands(self.string.upper(), self.player)
-                self.player.room.command(self.string.upper())
                 self.player.command(self.string.upper())
                 self.write_place = 0
                 self.string = ''
                 self.letter = ''
+                Commands.commands(self.og_text, self.player)
+                self.player.room.command(self.og_text)
                 print self.og_text
 
             # adding to string
@@ -255,6 +255,8 @@ class ChatBox:
                 color.append(OBJ)
             elif og_text[i].upper() in self.player.room.npcs_n:
                 color.append(NPC_C)
+            elif og_text[i].upper() in self.player.room.all_npc_a:
+                color.append(ACT_C)
             elif og_text[i].upper() in COLOURS.keys():
                 color.append(COLOURS[og_text[i].upper()])
             else:

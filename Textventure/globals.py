@@ -7,9 +7,15 @@ BACKGROUND = (29, 38, 53)
 FOREGROUND = (58, 76, 106)
 COMMAND = (242, 101, 19)
 KEYWORD = (52, 239, 105)
+ACT_C = (121, 60, 220)
 OBJ = (7, 211, 247)
 NPC_C = (222, 255, 76)
 OTHER = (234, 77, 63)
+COLOURS = {"BLACK":(0, 0, 0),
+            "WHITE":(255, 255, 255),
+            "BLUE":(0, 0, 255),
+            "GREEN":(0, 255, 0),
+            "RED":(255, 0, 0)}
 
 # frames
 INPUT_BOX_W = DISPLAY_WIDTH - (DISPLAY_WIDTH / 40)
