@@ -8,7 +8,7 @@ class Object:
                  id_n = random.randrange(1024),
                  info = '',
                  usages = {},
-                 image = None,
+                 image = '',
                  w = 32,
                  h = 32):
 
@@ -16,9 +16,15 @@ class Object:
         self.id = id_n
         self.info = info
         self.usages = usages  # Dict of usages
-        self.image = image
-        if self.image is not None:
+        self.image_n = image
+
+        if image != '':
+            self.image = pygame.image.load(image)
             self.image = pygame.transform.scale(self.image, (w, h))
+        else:
+            self.image = None
+
+        # NOTE: Please don't add properties after self.image for the saving to work
 
     def use(self, use, target):
         if use in self.usages:
