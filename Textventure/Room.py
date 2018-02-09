@@ -48,6 +48,13 @@ class Room:
             for key in npc.acts.keys():
                 self.all_npc_a.append(str(key))
 
+    def ret_obj(self, obj_string):
+        for obj in self.objects:
+            if obj.name.upper() == obj_string.upper():
+                return obj
+
+        return None
+
     def command(self, cmd):
         # for every command in the string
         for i in range(len(cmd)):

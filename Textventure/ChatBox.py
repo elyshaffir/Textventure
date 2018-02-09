@@ -195,7 +195,7 @@ class ChatBox:
 
             # submitting
             if self.letter == '--enter--':
-                self.player.command(self.string.upper())
+                self.player.command(self.og_text)
                 self.write_place = 0
                 self.string = ''
                 self.letter = ''
