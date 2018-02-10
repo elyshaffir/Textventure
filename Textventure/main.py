@@ -14,12 +14,19 @@ def c_h():
     cb.string = 'Hell Yeah'
 
 joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'}, {"TEST":c_h})
+dale = NPC.NPC(game_display, 'Dale', {'FUCK YOU': 'Nah fuck you!'}, {"TEST":c_h})
 chicken_leg = Object.Object('Chicken Leg',
                             info = 'Its a fucking chicken leg.',
                             image = 'imgs/Chicken Leg.png',
                             w = 780, h = 370)
 
-genesis = Room.Room(npcs=[joe], objects=[chicken_leg])
+genesis = Room.Room(npcs=[joe], objects=[chicken_leg], id_n=1)
+r1 = Room.Room(npcs=[dale], right=genesis, objects=[chicken_leg], id_n=2)
+r2 = Room.Room(left=genesis, objects=[chicken_leg], id_n=3)
+r3 = Room.Room(up=r2, objects=[chicken_leg], id_n=4)
+r4 = Room.Room(right=r3, up=genesis, objects=[chicken_leg], id_n=5)
+r2.down = r3
+r3.left = r4
 
 player = Player.Player(game_display, genesis)
 

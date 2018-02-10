@@ -17,10 +17,11 @@ class Object:
         self.info = info
         self.usages = usages  # Dict of usages
         self.image_n = image
-
+        self.w = w
+        self.h = h
         if image != '':
             self.image = pygame.image.load(image)
-            self.image = pygame.transform.scale(self.image, (w, h))
+            self.image = pygame.transform.scale(self.image, (self.w, self.h))
         else:
             self.image = None
 

@@ -1,4 +1,4 @@
-import pygame, pickle, os
+import pygame, pickle, os, shutil
 import Object
 import ui_util
 
@@ -11,103 +11,93 @@ class Player:
         self.game_display = game_display
 
     def command(self, c):
-        limit = len(c)
-        for i in range(limit):
-            cmd = c[i].upper()
-            if cmd == 'USE':
-                try:
-                    i += 1
-                    if i < limit:
-                        obj = c[i].upper()
-                        if obj not in self.room.objects_n:
-                            raise IndexError
-                    else:
-                        ui_util.prompt_info("Use what?")
+        c = c.split(' ')
+        if c[0] == 'USE':
+            try:
+                obj = c[1]
+                use = c[2]
+                target = c[3]
+                for i in self.inv:
+                    if obj == i.name.upper() and use in i.usages.keys():
+                        i.use(use, target)
                         break
+            except IndexError:
+                ui_util.prompt_info('Can\'t do that.')
 
-                    i += 1
-                    if i < limit:
-                        use = c[i].upper()
-                        if use not in self.room.ret_obj(obj).usages.keys():
-                            raise IndexError
-                    else:
-                        ui_util.prompt_info("What for?")
+        elif c[0] == 'TELL':
+            try:
+                npc_n = c[1]
+                d = ' '.join(c[2:])
+                for npc in self.room.npcs:
+                    if npc_n == npc.name.upper() and d.upper() in npc.dialogs.keys():
+                        npc.dialog(d)
                         break
+            except IndexError:
+                ui_util.prompt_info('Can\'t do that.')
 
-                    i += 1
-                    if i < limit:
-                        target = c[i].upper()
-                    else:
-                        ui_util.prompt_info("And do that to whom?")
+        elif c[0] == 'PICK':
+            obj_n = ' '.join(c[1:])
+
+            for obj in self.room.objects:
+                if obj_n == obj.name.upper():
+                    self.inv.append(obj)
+                    self.room.objects.remove(obj)
+                    obj.pick_event()
+                    return
+
+            for obj in self.inv:
+                if obj_n == obj.name.upper():
+                    ui_util.prompt_info('You already own that.')
+                    return
+
+            ui_util.prompt_info('No such object.')
+
+        elif c[0] == 'DROP':
+            obj_n = ' '.join(c[1:])
+
+            try:
+                for i in self.inv:
+                    if obj_n == i.name.upper():
+                        self.inv.remove(i)
+                        self.room.objects.append(i)
+                        self.room.objects_n.append(obj_n)
+                        ui_util.prompt_info('Item dropped.')
                         break
+            except IndexError:
+                ui_util.prompt_info('Can\'t do that.')
 
-                    ob = self.room.ret_obj(obj)
-                    ob.use(use, target)
-                    break
-                except IndexError:
-                    ui_util.prompt_info('Can\'t do that.')
+        elif c[0] == 'SAVE':
+            self.save(c[1])
 
-            elif c[0] == 'TELL':
-                try:
-                    npc_n = c[1]
-                    d = ' '.join(c[2:])
-                    for npc in self.room.npcs:
-                        if npc_n == npc.name.upper() and d.upper() in npc.dialogs.keys():
-                            npc.dialog(d)
-                            break
-                except IndexError:
-                    ui_util.prompt_info('Can\'t do that.')
-
-            elif c[0] == 'PICK':
-                obj_n = ' '.join(c[1:])
-
-                for obj in self.room.objects:
-                    if obj_n == obj.name.upper():
-                        self.inv.append(obj)
-                        self.room.objects.remove(obj)
-                        obj.pick_event()
-                        return
-
-                for obj in self.inv:
-                    if obj_n == obj.name.upper():
-                        ui_util.prompt_info('You already own that.')
-                        return
-
-                ui_util.prompt_info('No such object.')
-
-            elif c[0] == 'DROP':
-                obj_n = ' '.join(c[1:])
-
-                try:
-                    for i in self.inv:
-                        if obj_n == i.name.upper():
-                            self.inv.remove(i)
-                            self.room.objects.append(i)
-                            self.room.objects_n.append(obj_n)
-                            ui_util.prompt_info('Item dropped.')
-                            break
-                except IndexError:
-                    ui_util.prompt_info('Can\'t do that.')
-
-            elif c[0] == 'SAVE':
-                self.save(c[1])
-
-            elif c[0] == 'LOAD':
-                self.load(c[1])
+        elif c[0] == 'LOAD':
+            self.load(c[1])
 
     def save(self, filename):
         path = 'saves/' + filename + '/inv'
         if not os.path.exists(path):
             os.makedirs(path)
-
+        else:
+            shutil.rmtree(path)
+            os.makedirs(path)
         path += '/'
         for obj in self.inv:
             obj1 = Object.Object(name=obj.name,
                                  info=obj.info,
                                  usages=obj.usages,
-                                 image=obj.image_n)
+                                 image=obj.image_n,
+                                 w=obj.w,
+                                 h=obj.h)
             obj1.image = None
             self.save_by_name(path + obj1.name, obj1)
+
+        path = 'saves/' + filename + '/rms'
+        if not os.path.exists(path):
+            os.makedirs(path)
+        else:
+            shutil.rmtree(path)
+            os.makedirs(path)
+        path += '/'
+        self.room.save(path, True)
 
     def load(self, filename):
         path = 'saves/' + filename + '/inv/'
@@ -115,7 +105,15 @@ class Player:
         for obj in os.listdir(path):
             obj1 = self.load_by_name(path + obj)
             obj1.image = pygame.image.load(obj1.image_n)
+            obj1.image = pygame.transform.scale(self.image, (obj1.w, obj1.h))
             self.inv.append(obj1)
+
+        try:
+            self.room = self.load_by_name('saves/' + filename + '/rms/gene.pkl')
+        except Exception:
+            pass
+        path = 'saves/' + filename + '/rms/'
+        self.room.load(path, self.game_display, True)
 
     @staticmethod
     def save_by_name(name, v):
