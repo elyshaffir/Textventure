@@ -36,9 +36,6 @@ class Room:
         self.commands = commands  # Dictionary
         self.npcs = npcs
         self.objects = objects
-        self.objects_n = []
-        for obj in objects:
-            self.objects_n.append(obj.name.upper())
 
         self.npcs_n = []
         for npc in npcs:
@@ -48,6 +45,33 @@ class Room:
         for npc in npcs:
             for key in npc.acts.keys():
                 self.all_npc_a.append(str(key))
+
+    def ret_obj(self, obj_string):
+        for obj in self.objects:
+            if obj.name.upper() == obj_string.upper():
+                return obj
+
+        return None
+
+    def ret_npc(self, npc_string):
+        for npc in self.npcs:
+            if npc.name.upper() == npc_string.upper():
+                return npc
+
+        return None
+
+    def objects_n(self):
+        o_n = []
+        for obj in self.objects:
+            o_n.append(obj.name.upper())
+        return o_n
+
+    def all_object_usages(self):
+        a_o_u = []
+        for obj in self.objects:
+            for key in obj.usages.keys():
+                a_o_u.append(str(key))
+        return a_o_u
 
     def command(self, cmd):
         # for every command in the string
@@ -131,9 +155,6 @@ class Room:
             obj1.image = pygame.transform.scale(obj1.image, (obj1.w, obj1.h))
 
             self.objects.append(obj1)
-        self.objects_n = []
-        for obj in self.objects:
-            self.objects_n.append(obj.name.upper())
 
         npcs = path + 'npcs' + room_name + '/'
         self.npcs = []

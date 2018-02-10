@@ -17,7 +17,7 @@ joe = NPC.NPC(game_display, 'Joe', {'FUCK YOU': 'Nah fuck you!'}, {"TEST":c_h})
 dale = NPC.NPC(game_display, 'Dale', {'FUCK YOU': 'Nah fuck you!'}, {"TEST":c_h})
 chicken_leg = Object.Object('Chicken Leg',
                             info = 'Its a fucking chicken leg.',
-                            image = 'imgs/Chicken Leg.png',
+                            image = 'imgs/pulke.png',
                             w = 780, h = 370)
 
 genesis = Room.Room(npcs=[joe], objects=[chicken_leg], id_n=1)

@@ -23,6 +23,10 @@ class ChatBox:
         self.type_timer = 0
         self.type_ltr = '_'
 
+        # last string
+        self.last_index = 0
+        self.last_string = []
+
     def write_with_color(self, text, color, game_display, font):
         for count in range(len(text), 0, -1):
             string = ''
@@ -151,6 +155,10 @@ class ChatBox:
                 self.letter = '--right--'
             if k[pygame.K_LEFT]:
                 self.letter = '--left--'
+            if k[pygame.K_UP]:
+                self.letter = '--up--'
+            if k[pygame.K_DOWN]:
+                self.letter = '--down--'
 
             # numbers
             if k[pygame.K_0]:
@@ -193,12 +201,40 @@ class ChatBox:
             # previus letter: checks fir single press
             self.prv_ltr = self.letter
 
+            # previus string
+            if self.letter == '--up--':
+                if self.last_index < len(self.last_string):
+                    self.write_place = 0
+                    self.last_index += 1
+                    self.string = self.last_string[-self.last_index]
+
+                self.letter = ''
+
+            # next string
+            if self.letter == '--down--':
+                if self.last_index > 0:
+                    self.last_index -= 1
+                    self.write_place = 0
+                    if self.last_index == 0:
+                        self.string = ''
+                    else:
+                        self.string = self.last_string[-self.last_index]
+
+                self.letter = ''
+
             # submitting
             if self.letter == '--enter--':
-                self.player.command(self.og_text)
                 self.write_place = 0
+
+                # storing prvs strings
+                self.last_string.append(self.string)
+                self.last_index = 0
+                # clearing string
                 self.string = ''
                 self.letter = ''
+
+                # doing commands
+                self.player.command(self.og_text)
                 Commands.commands(self.og_text, self.player)
                 self.player.room.command(self.og_text)
                 print self.og_text
@@ -251,8 +287,10 @@ class ChatBox:
                 color.append(COMMAND)
             elif og_text[i].upper() in Commands.keywords:
                 color.append(KEYWORD)
-            elif og_text[i].upper() in self.player.room.objects_n:
+            elif og_text[i].upper() in self.player.room.objects_n():
                 color.append(OBJ)
+            elif og_text[i].upper() in self.player.room.all_object_usages():
+                color.append(USAGE_C)
             elif og_text[i].upper() in self.player.room.npcs_n:
                 color.append(NPC_C)
             elif og_text[i].upper() in self.player.room.all_npc_a:
@@ -273,7 +311,7 @@ class ChatBox:
                     color[i] = COMMAND
                 elif og_text[i].upper() in Commands.keywords:
                     color[i] = KEYWORD
-                elif og_text[i].upper() in self.player.room.objects_n:
+                elif og_text[i].upper() in self.player.room.objects_n():
                     color[i] = OBJ
                 elif og_text[i].upper() in self.player.room.npcs_n:
                     color[i] = NPC_C

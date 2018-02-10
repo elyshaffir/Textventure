@@ -1,0 +1,31 @@
+(iObject
+Object
+p0
+(dp1
+S'info'
+p2
+S'Its a fucking chicken leg.'
+p3
+sS'usages'
+p4
+(dp5
+sS'name'
+p6
+S'Chicken Leg'
+p7
+sS'h'
+p8
+I370
+sS'image'
+p9
+NsS'w'
+p10
+I780
+sS'id'
+p11
+I153
+sS'image_n'
+p12
+S'imgs/pulke.png'
+p13
+sb.

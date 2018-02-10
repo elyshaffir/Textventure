@@ -1,0 +1,17 @@
+(iRoom
+Room
+p0
+(dp1
+S'info'
+p2
+S''
+p3
+sS'npcs'
+p4
+(lp5
+(iNPC
+NPC
+p6
+(dp7
+S'game_display'
+p8
