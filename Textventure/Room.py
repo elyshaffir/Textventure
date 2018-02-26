@@ -37,15 +37,6 @@ class Room:
         self.npcs = npcs
         self.objects = objects
 
-        self.npcs_n = []
-        for npc in npcs:
-            self.npcs_n.append(npc.name.upper())
-
-        self.all_npc_a = []
-        for npc in npcs:
-            for key in npc.acts.keys():
-                self.all_npc_a.append(str(key))
-
     def ret_obj(self, obj_string):
         for obj in self.objects:
             if obj.name.upper() == obj_string.upper():
@@ -60,6 +51,12 @@ class Room:
 
         return None
 
+    def npcs_n(self):
+        np_n = []
+        for npc in self.npcs:
+            np_n.append(npc.name.upper())
+        return np_n
+
     def objects_n(self):
         o_n = []
         for obj in self.objects:
@@ -72,6 +69,13 @@ class Room:
             for key in obj.usages.keys():
                 a_o_u.append(str(key))
         return a_o_u
+
+    def all_npc_acts(self):
+        a_n_a = []
+        for npc in self.npcs:
+            for key in npc.acts.keys():
+                a_n_a.append(str(key))
+        return a_n_a
 
     def command(self, cmd):
         # for every command in the string

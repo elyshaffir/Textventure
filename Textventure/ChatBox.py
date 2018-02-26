@@ -289,11 +289,14 @@ class ChatBox:
                 color.append(KEYWORD)
             elif og_text[i].upper() in self.player.room.objects_n():
                 color.append(OBJ)
-            elif og_text[i].upper() in self.player.room.all_object_usages():
+            elif (og_text[i].upper() in self.player.room.all_object_usages()
+                or og_text[i].upper() in self.player.all_object_usages()):
                 color.append(USAGE_C)
-            elif og_text[i].upper() in self.player.room.npcs_n:
+            elif og_text[i].upper() in self.player.objects_n():
+                color[i] = INV_C
+            elif og_text[i].upper() in self.player.room.npcs_n():
                 color.append(NPC_C)
-            elif og_text[i].upper() in self.player.room.all_npc_a:
+            elif og_text[i].upper() in self.player.room.all_npc_acts():
                 color.append(ACT_C)
             elif og_text[i].upper() in COLOURS.keys():
                 color.append(COLOURS[og_text[i].upper()])
@@ -313,7 +316,9 @@ class ChatBox:
                     color[i] = KEYWORD
                 elif og_text[i].upper() in self.player.room.objects_n():
                     color[i] = OBJ
-                elif og_text[i].upper() in self.player.room.npcs_n:
+                elif og_text[i].upper() in self.player.objects_n():
+                    color[i] = INV_C
+                elif og_text[i].upper() in self.player.room.npcs_n():
                     color[i] = NPC_C
                 else:
                     color[i] = OTHER

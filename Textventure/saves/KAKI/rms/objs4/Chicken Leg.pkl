@@ -23,7 +23,7 @@ p10
 I780
 sS'id'
 p11
-I153
+I118
 sS'image_n'
 p12
 S'imgs/pulke.png'

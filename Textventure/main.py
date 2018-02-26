@@ -1,4 +1,4 @@
-import pygame
+import pygame, time
 
 pygame.init()
 
@@ -59,3 +59,6 @@ while 1:
         game_display.blit(globals_vars.current_displaying_image, (15, 155))
 
     pygame.display.update()
+
+    # frame delay
+    time.sleep(1/1000)

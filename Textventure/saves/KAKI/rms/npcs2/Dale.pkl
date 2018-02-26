@@ -1,0 +1,26 @@
+(iNPC
+NPC
+p0
+(dp1
+S'game_display'
+p2
+NsS'acts'
+p3
+(dp4
+S'TEST'
+p5
+c__main__
+c_h
+p6
+ssS'dialogs'
+p7
+(dp8
+S'FUCK YOU'
+p9
+S'Nah fuck you!'
+p10
+ssS'name'
+p11
+S'Dale'
+p12
+sb.

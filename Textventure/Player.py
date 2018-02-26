@@ -10,6 +10,26 @@ class Player:
         self.inv = inv
         self.game_display = game_display
 
+    def ret_obj(self, obj_string):
+        for obj in self.inv:
+            if obj.name.upper() == obj_string.upper():
+                return obj
+
+        return None
+
+    def objects_n(self):
+        o_n = []
+        for obj in self.inv:
+            o_n.append(obj.name.upper())
+        return o_n
+
+    def all_object_usages(self):
+        a_o_u = []
+        for obj in self.inv:
+            for key in obj.usages.keys():
+                a_o_u.append(str(key))
+        return a_o_u
+
     def command(self, c):
         limit = len(c)
         for i in range(limit):
@@ -19,7 +39,7 @@ class Player:
                     i += 1
                     if i < limit:
                         obj = c[i].upper()
-                        if obj not in self.room.objects_n():
+                        if obj not in self.objects_n():
                             ui_util.prompt_info(obj + '? You dont have such object')
                             break
                     else:
@@ -29,7 +49,7 @@ class Player:
                     i += 1
                     if i < limit:
                         use = c[i].upper()
-                        if use not in self.room.ret_obj(obj).usages.keys():
+                        if use not in self.ret_obj(obj).usages.keys():
                             ui_util.prompt_info('You can\'t ' + use + ' with this ' + obj)
                             break
                     else:
@@ -43,7 +63,7 @@ class Player:
                         ui_util.prompt_info("And do that to whom?")
                         break
 
-                    ob = self.room.ret_obj(obj)
+                    ob = self.ret_obj(obj)
                     ob.use(use, target)
                     break
                 except IndexError:
@@ -54,7 +74,7 @@ class Player:
                     i += 1
                     if i < limit:
                         npc_n = c[i].upper()
-                        if npc_n not in self.room.npcs_n:
+                        if npc_n not in self.room.npcs_n():
                             ui_util.prompt_info(npc_n + '? There is no such person in this room')
                             break
                     else:
@@ -77,34 +97,47 @@ class Player:
                 except IndexError:
                     ui_util.prompt_info('Can\'t do that.')
 
-            elif c[0] == 'PICK':
-                obj_n = ' '.join(c[1:])
+            elif cmd == 'PICK':
+                i += 1
+                if i < limit:
+                    obj_n = c[i].upper()
+                    if obj_n not in self.room.objects_n():
 
-                for obj in self.room.objects:
-                    if obj_n == obj.name.upper():
-                        self.inv.append(obj)
-                        self.room.objects.remove(obj)
-                        obj.pick_event()
-                        return
+                        if obj_n in self.objects_n():
+                            ui_util.prompt_info('You already own that.')
+                            return
 
-                for obj in self.inv:
-                    if obj_n == obj.name.upper():
-                        ui_util.prompt_info('You already own that.')
-                        return
+                        ui_util.prompt_info(obj_n + '? Not in this room!')
+                        break
+                else:
+                    ui_util.prompt_info("Pick what?")
+                    break
 
-                ui_util.prompt_info('No such object.')
+                obj = self.room.ret_obj(obj_n)
+                self.inv.append(obj)
+                self.room.objects.remove(obj)
+                obj.pick_event()
+                return
 
-            elif c[0] == 'DROP':
-                obj_n = ' '.join(c[1:])
-
+            elif cmd == 'DROP':
                 try:
-                    for i in self.inv:
-                        if obj_n == i.name.upper():
-                            self.inv.remove(i)
-                            self.room.objects.append(i)
-                            self.room.objects_n.append(obj_n)
-                            ui_util.prompt_info('Item dropped.')
+                    i += 1
+
+                    if (i < limit):
+                        obj_n = c[i].upper()
+                        if obj_n in self.objects_n():
+                            obj = self.ret_obj(obj_n)
+                            self.inv.remove(obj)
+                            self.room.objects.append(obj)
+                            ui_util.prompt_info('the ' + obj_n + ' has been dropped.')
                             break
+                        else:
+                            ui_util.prompt_info('You don\'t have any ' + obj_n)
+                            break
+                    else:
+                        ui_util.prompt_info('What would you like to drop, kind sir?')
+                        break
+
                 except IndexError:
                     ui_util.prompt_info('Can\'t do that.')
 
